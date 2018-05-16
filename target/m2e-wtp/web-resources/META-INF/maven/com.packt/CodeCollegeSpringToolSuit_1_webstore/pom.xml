@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.packt</groupId>
+	<artifactId>CodeCollegeSpringToolSuit_1_webstore</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	
+	
+	
+	<dependencies>
+	
+		<!-- dependency for spring-mvc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
+		
+		<!-- dependency for JSTL, JSTL is a collection of useful JSP (JavaServer Pages) tags that can be used to write JSP pages easily -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
+		<!-- dependency used in order to use servlet-related code -->
+		<!-- selected the Scope as provided for servlet-api, because the Tomcat web server would provide the servlet-api.jar while deploying our project -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+	</dependencies>
+	
+	
+	
+</project>
+
+
+
+
+
+
+
