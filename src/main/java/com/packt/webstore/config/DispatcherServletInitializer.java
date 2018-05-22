@@ -8,17 +8,17 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return null;
+		return new Class[] {RootApplicationContextConfig.class };	// this is one of the other Java classes that was created
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { WebApplicationContextConfig.class };	//this is the other Java class that was created
+		return new Class[] { WebApplicationContextConfig.class };	// this is one of the other Java classes that was created
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] { "/" };
+		return new String[] { "/" };								// this indicates what the URL starts with
 	}
 
 	
