@@ -15,8 +15,8 @@ import com.packt.webstore.domain.Product;
 import com.packt.webstore.domain.repository.ProductRepository;
 
 
-//InMemoryProductRepository is trying to communicate with an in-memory database to retrieve all the information relating to the products.
-//To mark any class as a repository object, we need to annotate that class with the @Repository
+// InMemoryProductRepository is trying to communicate with an in-memory database to retrieve all the information relating to the products.
+// To mark any class as a repository object, we need to annotate that class with the @Repository
 @Repository
 public class InMemoryProductRepository implements ProductRepository {
 
@@ -25,7 +25,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	
-	// this method will return a list of product domain objects.	
+	// this method will return a list of product domain objects.
 	//@Override
 	public List<Product> getAllProducts() {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -34,14 +34,46 @@ public class InMemoryProductRepository implements ProductRepository {
 	}
 	
 	
+	
+	// added from Chapter_3
 	//@Override
-		public void updateStock(String productId, long noOfUnits) {
-			String SQL = "UPDATE PRODUCTS SET UNITS_IN_STOCK = :unitsInStock WHERE ID = :id";
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("unitsInStock", noOfUnits);
-			params.put("id", productId);
-			jdbcTemplate.update(SQL, params);
-		}
+	public List<Product> getProductsByCategory(String category) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY = :category";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("category", category);
+		return jdbcTemplate.query(SQL, params, new ProductMapper());
+	}
+	
+	
+	
+	// added from Chapter_3
+	//@Override
+	public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY IN ( :categories ) AND MANUFACTURER IN ( :brands)";
+		return jdbcTemplate.query(SQL, filterParams, new ProductMapper());
+	}
+	
+	
+	
+	// added from Chapter_3
+	//@Override
+	public Product getProductById(String productID) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE ID = :id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", productID);
+		return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
+	}
+	
+	
+	
+	//@Override
+	public void updateStock(String productId, long noOfUnits) {
+		String SQL = "UPDATE PRODUCTS SET UNITS_IN_STOCK = :unitsInStock WHERE ID = :id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("unitsInStock", noOfUnits);
+		params.put("id", productId);
+		jdbcTemplate.update(SQL, params);
+	}
 	
 	
 	
@@ -66,5 +98,18 @@ public class InMemoryProductRepository implements ProductRepository {
 		}
 		
 	}
-	
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

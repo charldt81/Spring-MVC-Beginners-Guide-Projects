@@ -1,3 +1,5 @@
+
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%-- we created this products.jsp as... step 4 --%>
@@ -31,6 +33,12 @@
 							<p>${product.description}</p>								<%-- from the Product{} class --%>
 							<p>${product.unitPrice} USD</p>								<%-- from the Product{} class --%>
 							<p>Available ${product.unitsInStock} units in stock</p>		<%-- from the Product{} class --%>
+							<p>
+								<a href=" <spring:url value="/market/product?id=${product.productId}" /> " class="btn btn-primary">
+									<span class="glyphicon-info-sign glyphicon"/></span> 
+									Details
+								</a>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -40,10 +48,5 @@
 </body>
 
 </html>
-
-
-
-
-
 
 
