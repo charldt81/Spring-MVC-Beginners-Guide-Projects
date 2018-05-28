@@ -26,7 +26,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	
 	
 	// this method will return a list of product domain objects.
-	//@Override
+	@Override
 	public List<Product> getAllProducts() {
 		Map<String, Object> params = new HashMap<String, Object>();
 		List<Product> result = jdbcTemplate.query("SELECT * FROM products", params, new ProductMapper());
@@ -36,7 +36,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	
 	
 	// added from Chapter_3
-	//@Override
+	@Override
 	public List<Product> getProductsByCategory(String category) {
 		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY = :category";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -47,7 +47,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	
 	
 	// added from Chapter_3
-	//@Override
+	@Override
 	public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
 		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY IN ( :categories ) AND MANUFACTURER IN ( :brands)";
 		return jdbcTemplate.query(SQL, filterParams, new ProductMapper());
@@ -56,7 +56,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	
 	
 	// added from Chapter_3
-	//@Override
+	@Override
 	public Product getProductById(String productID) {
 		String SQL = "SELECT * FROM PRODUCTS WHERE ID = :id";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -66,7 +66,40 @@ public class InMemoryProductRepository implements ProductRepository {
 	
 	
 	
-	//@Override
+	// added from Chapter_4
+	@Override
+	public void addProduct(Product product) {
+		String SQL = "INSERT INTO PRODUCTS (ID, " 
+										 + "NAME," 
+										 + "DESCRIPTION,"
+										 + "UNIT_PRICE,"
+										 + "MANUFACTURER,"
+										 + "CATEGORY,"
+										 + "CONDITION,"
+										 + "UNITS_IN_STOCK,"
+										 + "UNITS_IN_ORDER,"
+										 + "DISCONTINUED) "
+										 + "VALUES (:id, :name, :desc, :price, :manufacturer, :category,"
+										 + 		   ":condition, :inStock, :inOrder, :discontinued)";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", product.getProductId());
+		params.put("name", product.getName());
+		params.put("desc", product.getDescription());
+		params.put("price", product.getUnitPrice());
+		params.put("manufacturer", product.getManufacturer());
+		params.put("category", product.getCategory());
+		params.put("condition", product.getCondition());
+		params.put("inStock", product.getUnitsInStock());
+		params.put("inOrder", product.getUnitsInOrder());
+		params.put("discontinued", product.isDiscontinued());
+		
+		jdbcTemplate.update(SQL, params);
+	}
+	
+	
+	
+	@Override
 	public void updateStock(String productId, long noOfUnits) {
 		String SQL = "UPDATE PRODUCTS SET UNITS_IN_STOCK = :unitsInStock WHERE ID = :id";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -98,6 +131,9 @@ public class InMemoryProductRepository implements ProductRepository {
 		}
 		
 	}
+
+
+
 
 
 }

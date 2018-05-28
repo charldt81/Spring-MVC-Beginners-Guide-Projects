@@ -1,8 +1,10 @@
 package com.packt.webstore.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -50,4 +52,22 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	
+	
+	// Added from Chpater_4
+	// We created a message source property file and added the <spring:message> tag in our JSP file, but to connect these two we need to 
+	// create one more Spring bean in our web application context.
+	// One important property you need to notice here is the 'basename' property; we assigned the value "messages" for that property.
+	// That is all we did to enable the externalizing of messages in a JSP file.
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
+		resource.setBasename("messages");
+		return resource;
+	}
+	
+	
 }
+
+
+
+

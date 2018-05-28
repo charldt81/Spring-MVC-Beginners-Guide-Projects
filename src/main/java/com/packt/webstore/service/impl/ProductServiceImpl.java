@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository;
 	
 	
-	//@Override
+	@Override
 	public void updateAllStock() {
 		List<Product> allProducts = productRepository.getAllProducts();
 		
@@ -31,34 +31,46 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 
-	//@Override
+	@Override
 	public List<Product> getAllProducts() {
 		return productRepository.getAllProducts();
 	}
 
 
 	// added from Chapter_3
-	//@Override
+	@Override
 	public List<Product> getProductsByCategory(String category) {
 		return productRepository.getProductsByCategory(category);
 	}
 
 
 	// added from Chapter_3
-	//@Override
+	@Override
 	public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
 		return productRepository.getProductsByFilter(filterParams);
 	}
 
 
 	// added from Chapter_3
-	//@Override
+	@Override
 	public Product getProductById(String productID) {
 		return productRepository.getProductById(productID);
+	}
+
+
+	// added from Chapter_4
+	@Override
+	public void addProduct(Product product) {
+		productRepository.addProduct(product);
 	}
 	
 	
 }
+
+
+
+
+
 
 
 

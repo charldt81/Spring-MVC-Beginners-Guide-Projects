@@ -16,8 +16,11 @@ public interface ProductRepository {
 	
 	Product getProductById(String productID);										// added from Chapter_3
 	
+	void addProduct(Product product);												// added from Chapter_4
+	
 	void updateStock(String productId, long noOfUnits);
 	
 	
 }
+
 

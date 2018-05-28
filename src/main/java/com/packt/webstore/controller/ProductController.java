@@ -6,11 +6,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.packt.webstore.domain.Product;
 import com.packt.webstore.service.ProductService;
 
 
@@ -33,6 +40,15 @@ public class ProductController {
 		model.addAttribute("products", productService.getAllProducts());
 		return "products";
 		// and finally we return the view name as 'products'
+	}
+	
+	
+	
+	// these request mappings are on the controllers method level - "/products" and "/update/stock"
+	@RequestMapping("/update/stock")
+	public String updateStock(Model model) {
+		productService.updateAllStock();
+		return "redirect:/market/products";
 	}
 	
 	
@@ -86,15 +102,71 @@ public class ProductController {
 	
 	
 	
-	// these request mappings are on the controllers method level - "/products" and "/update/stock"
-	@RequestMapping("/update/stock")
-	public String updateStock(Model model) {
-		productService.updateAllStock();
+	// added from Chapter_4
+	// when we enter the URL - webstore/market/products/add - in the browser, it is considered as a GET request,
+	// so Spring MVC will map that request to the 'getAddNewProductForm' method.
+	// Within that method, we simply attach a new empty Product domain object with the model, under the attribute name newProduct.
+	// So in the 'addproduct.jsp' View, we can access that newProduct Model object.
+	@RequestMapping(value = "/products/add", method = RequestMethod.GET)
+	public String getAddNewProductForm(Model model) {
+		Product newProduct = new Product();
+		model.addAttribute("newProduct", newProduct);
+		return "addProduct";
+	}
+	
+	
+	
+	// added from Chapter_4
+	// This method will be invoked once we press the submit button on our form.
+	// Since every form submission is considered a POST request, this time the browser will send a POST request to the same URL:
+	//   http://localhost:8080/webstore/products/add.
+	// We are simply calling the 'addProduct' service method to add the new product to the repository.
+	// The @ModelAttribute annotation's value and the value of the modelAttribute from the <form:form> tag are the same.
+	// So Spring MVC knows that it should assign the form bounded 'newProduct' object to the 'processAddNewProductForm'
+	// method's 'productToBeAdded' parameter.
+	// Then finally our logical View name, instead of returning a View name, we are simply instructing Spring to issue a redirect 
+	// request to the request path /market/products, which is the request path for the list method of our ProductController.
+	// So, after submitting the form, we list the products using the 'list' method of 'ProductController{}'.
+	@RequestMapping(value = "/products/add", method = RequestMethod.POST)
+	public String processAddNewProductForm(@ModelAttribute("newProduct") Product productToBeAdded, BindingResult result) {
+		
+		String[] suppressedFields = result.getSuppressedFields();
+		
+		if (suppressedFields.length > 0) {
+			throw new RuntimeException("Attempting to bind disallowed fields: " + StringUtils.arrayToCommaDelimitedString(suppressedFields));
+		}
+		
+		productService.addProduct(productToBeAdded);
 		return "redirect:/market/products";
 	}
 	
 	
+	
+	// added from Chapter_4
+	// The automatic binding feature of Spring could lead to a potential security vulnerability if we used a domain object itself as form bean.
+	// The @InitBinder annotation designates a Controller method as a hook method to do some custom configuration regarding data binding on WebDataBinder.
+	// And WebDataBinder is the thing that is doing the data binding at runtime, so we need to specify which fields are allowed to bind to WebDataBinder.
+	// Here we are telling Spring MVC which area fields are allowed, and this is called "whitelisting".
+	// This 'initialiseBinder' method has a parameter called 'binder', which is of the type WebDataBinder.
+	// We are simply calling the 'setAllowedFields' method on the binder object and passing the field names that are allowed for binding.
+	// Spring MVC will call this method to initialize WebDataBinder before doing the binding since it has the @InitBinder annotation.
+	// WebDataBinder also has a method called 'setDisallowedFields' to strictly specify which fields are disallowed for binding, called "blacklisting".
+	@InitBinder
+	public void initialiseBinder(WebDataBinder binder) {
+		binder.setAllowedFields("productId",
+								"name",
+								"unitPrice",
+								"description",
+								"manufacturer",
+								"category",
+								"unitsInStock",
+								"condition");
+	}
+	
+	
 }
+
+
 
 
 
