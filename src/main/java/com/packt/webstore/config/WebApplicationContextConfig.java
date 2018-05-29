@@ -1,17 +1,30 @@
 package com.packt.webstore.config;
 
+import java.util.ArrayList;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
+
+import com.packt.webstore.domain.Product;
 
 
 
@@ -64,6 +77,80 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 		resource.setBasename("messages");
 		return resource;
 	}
+	
+	
+	
+	// Added from Chapter_5
+	// Here we are telling Spring where the image files are located in our project, so that Spring can serve those files upon request.
+	// The 'addResourceLocations' method from 'ResourceHandlerRegistry' defines the base directory location of the static resources that you want to serve.
+	// The other method, 'addResourceHandler', just indicated the request path that needs to be mapped to this resource directory.
+	// In our case, we assigned "/img/**" as the mapping value.
+	// So if any web request comes with the request path /img, then it will be mapped to the 'resources/images' directory.
+	// The '/**' symbol indicates to recursively look for any resource files underneath the base resource directory.
+	// Remember Spring allows you to not only host images, but also any type of static files such as PDFs, Word documents, Excel sheets, and so in this fashion.
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/img/**").addResourceLocations("/resources/images/");
+	}
+	
+	
+	
+	// Added from Chapter_5
+	// Spring's 'CommonsMultipartResolver' class is the thing that determines whether the given request contains multipart content and
+	// parses the given HTTP request into multipart files and parameters.
+	// Through the 'setMaxUploadSize' property, we set a maximum of 10,240,000 bytes as the allowed file size to be uploaded.
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
+		resolver.setMaxUploadSize(10240000);
+		return resolver;
+	}
+	
+	
+	
+	// Added from Chapter_5
+	@Bean
+	public MappingJackson2JsonView jsonView() {
+		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+		jsonView.setPrettyPrint(true);
+		return jsonView;
+	}
+	
+	
+	
+	// Added from Chapter_5
+	// The xmlView bean configuration especially has one important property to be set called 'classesToBeBound'; 
+	// this lists the domain objects that require XML conversion during the request processing.
+	// Since our product domain object requires XML conversion, we added 'com.packt.webstore.domain.Product' to the list 'classesToBeBound':
+	// In order to convert it to XML, we need to give MarshallingView one more hint to identify the root XML element in the Product domain object.
+	// We annotated our 'Product.java' class with the @XmlRootElement annotation.
+	@Bean
+	public MarshallingView xmlView() {
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setClassesToBeBound(Product.class);
+		MarshallingView xmlView = new MarshallingView(marshaller);
+		return xmlView;
+	}
+	
+	
+	
+	// Added from Chapter_5
+	// We want a view resolver to resolve XML and JSON Views, that's why we configured 'ContentNegotiatingViewResolver'.
+	// ContentNegotiatingViewResolver does not resolve Views itself but rather it delegates to other Views based on the request,
+	// so we need to introduce other Views to ContentNegotiatingViewResolver.
+	// How we do that is through the 'setDefaultViews()' method in ContentNegotiatingViewResolver:
+	@Bean
+	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
+		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+		resolver.setContentNegotiationManager(manager);
+		ArrayList<View> views = new ArrayList<>();
+		views.add(jsonView());
+		views.add(xmlView());
+		resolver.setDefaultViews(views);
+		return resolver;
+	}
+	
 	
 	
 }

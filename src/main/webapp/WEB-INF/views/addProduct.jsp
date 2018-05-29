@@ -30,8 +30,8 @@
 			</div>
 	</section>
 	
-	<section class="container">
-			<form:form method="POST" modelAttribute="newProduct" class="form-horizontal">
+	<section class="container">															<%-- added 'enctype="multipart/form-data"' from Chapter_5 --%>
+			<form:form method="POST" modelAttribute="newProduct" class="form-horizontal" enctype="multipart/form-data">
 				<fieldset>
 				
 					<legend>Add new product</legend>
@@ -107,6 +107,16 @@
 						</div>
 					</div>
 					
+					<%-- added the following 6 lines from Chapter_5 --%>
+					<%-- In the preceding set of tags, the important one is the <form:input/> tag, which has the type attribute as file so that it can make 
+					     the Choose File button display the file chooser window. --%>
+					<div class="form-group">
+						<label class="control-label col-lg-2" for="productImage"> <spring:message code="addProduct.form.productImage.label"/> </label>
+						<div class="col-lg-10">
+							<form:input id="productImage" path="productImage" type="file" class="form:input-large" />
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<div class="col-lg-offset-2 col-lg-10">
 							<input type="submit" id="btnAdd" class="btnbtn-primary" value="Add" />
@@ -120,5 +130,6 @@
 
 
 </html>
+
 
 

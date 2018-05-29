@@ -27,6 +27,10 @@
 			<c:forEach items="${products}" var="product">	<%-- loop through the list and show each product's information inside a styled <div> tag --%>
 				<div class="col-sm-6 col-md-3">
 					<div class="thumbnail">
+					
+						<%-- the following line added from Chapter_5 for images --%>
+						<img src="<c:url value="/img/${product.productId}.png"></c:url>" alt="image" style = "width:100%"/>	   
+						
 						<div class="caption">
 							<%-- this is where the data gets retrieved form the model --%>
 							<h3>${product.name}</h3>									<%-- from the ProductCotroller{} class --%>

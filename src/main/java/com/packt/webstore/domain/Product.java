@@ -3,9 +3,19 @@ package com.packt.webstore.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-//this Product{} class is used as the 'domain object' that holds the details of a product, such as the name, description, price, etc... step 1
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+// this Product{} class is used as the 'domain object' that holds the details of a product, such as the name, description, price, etc... step 1
+
+
+// This annotation '@XmlRootElement' was added from Chapter_5
+@XmlRootElement
 public class Product implements Serializable {
 
 	
@@ -21,6 +31,12 @@ public class Product implements Serializable {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	
+	// Added from Chapter_5 including getters and setters
+	// This 'MultipartFile' reference holds the actual product image file that we are uploading.
+	// This '@JsonIgnore' annotation was added from Chapter_5 and is used to NOT represent the product image as part of the JSON View.
+	@JsonIgnore
+	private MultipartFile productImage;
 	
 	
 	public Product() {
@@ -136,9 +152,20 @@ public class Product implements Serializable {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+
 	
-	
-	
+	// This '@XmlTransient' annotation was added from Chapter_5 and is used to NOT represent the product image as part of the XML View.
+	@XmlTransient
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+
+
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
+	}
+
+
 	@Override
 	public boolean equals(Object obj) {
 		
