@@ -188,7 +188,8 @@ public class ProductController {
 								"category",
 								"unitsInStock",
 								"condition",
-								"productImage");	// Added from Chapter_5
+								"productImage",		// Added from Chapter_5
+								"language");		// Added from Chapter_6
 	}
 	
 	
@@ -202,6 +203,14 @@ public class ProductController {
 		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
 		mav.setViewName("productNotFound");
 		return mav;
+	}
+	
+	
+	
+	// Added from Chapter_6
+	@RequestMapping("/products/invalidPromoCode")
+	public String invalidPromoCode() {
+		return "invalidPromoCode";
 	}
 	
 	

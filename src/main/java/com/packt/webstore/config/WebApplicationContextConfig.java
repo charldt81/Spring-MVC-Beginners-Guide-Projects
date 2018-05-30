@@ -1,6 +1,7 @@
 package com.packt.webstore.config;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -10,13 +11,18 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -25,6 +31,8 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
 
 import com.packt.webstore.domain.Product;
+import com.packt.webstore.interceptor.ProcessingTimeLogInterceptor;
+import com.packt.webstore.interceptor.PromoCodeInterceptor;
 
 
 
@@ -150,6 +158,50 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 		resolver.setDefaultViews(views);
 		return resolver;
 	}
+	
+	
+	
+	// Added from Chapter_6
+	// This is our InterceptorRegistry
+	// We can specify URL patterns using the addPathPatterns method.
+	// This way we can specify the URL patterns to which the registered interceptor should apply.
+	// So our 'promoCodeInterceptor' will get executed only for a request that ends with market/specialOffer.
+	// While adding an interceptor, we can also specify the URL patterns that the registered interceptor should not apply to via the 'excludePathPatterns' method.
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new ProcessingTimeLogInterceptor());
+		
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("language");
+		registry.addInterceptor(localeChangeInterceptor);
+		
+		registry.addInterceptor(promoCodeInterceptor()).addPathPatterns("/**/market/products/specialOffer");
+	}
+	
+	
+	
+	// Added from Chapter_6
+	// SessionLocaleResolver is the one that sets the locale attribute in the user's session.
+	// One important property of SessionLocaleResolver is defaultLocale, this indicates that by default or page should use English.
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver resolver = new SessionLocaleResolver();
+		resolver.setDefaultLocale(new Locale("en"));
+		return resolver;
+	}
+	
+	
+	
+	// Added from Chapter_6
+	@Bean
+	public HandlerInterceptor promoCodeInterceptor() {
+		PromoCodeInterceptor promoCodeInterceptor = new PromoCodeInterceptor();
+		promoCodeInterceptor.setPromoCode("OFF3R");
+		promoCodeInterceptor.setOfferRedirect("market/products");
+		promoCodeInterceptor.setErrorRedirect("invalidPromoCode");
+		return promoCodeInterceptor;
+	}
+	
 	
 	
 	
