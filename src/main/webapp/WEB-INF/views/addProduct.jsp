@@ -25,7 +25,9 @@
 	<%-- added these next 5 lines from Chapter_6 --%>
 	<section>
 			<div class="pull-right" style="padding-right:50px">
-				<a href="?language=en" >English</a> | <a href="?language=nl" >Dutch</a>
+				<a href="?language=en" >English</a> | 
+				<a href="?language=nl" >Dutch</a> | 
+				<a href="<c:url value="/logout" />">Logout</a>	<%-- this line added from Chapter_7 --%>
 			</div>
 	</section>
 
