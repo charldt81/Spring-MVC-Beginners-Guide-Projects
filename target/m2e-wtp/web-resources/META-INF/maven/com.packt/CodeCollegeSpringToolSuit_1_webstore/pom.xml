@@ -119,8 +119,14 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>4.1.1.RELEASE</version>
-		</dependency>		
-		
+		</dependency>
+
+		<!-- added the following dependancy from Chapter_8 -->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.0.10.Final</version>
+		</dependency>
 	</dependencies>
 	
 	

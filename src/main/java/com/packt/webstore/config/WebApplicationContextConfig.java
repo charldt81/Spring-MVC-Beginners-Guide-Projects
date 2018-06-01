@@ -1,7 +1,9 @@
 package com.packt.webstore.config;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,6 +37,8 @@ import org.springframework.web.util.UrlPathHelper;
 import com.packt.webstore.domain.Product;
 import com.packt.webstore.interceptor.ProcessingTimeLogInterceptor;
 import com.packt.webstore.interceptor.PromoCodeInterceptor;
+import com.packt.webstore.validator.ProductValidator;
+import com.packt.webstore.validator.UnitsInStockValidator;
 
 
 
@@ -200,6 +206,41 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 		promoCodeInterceptor.setOfferRedirect("market/products");
 		promoCodeInterceptor.setErrorRedirect("invalidPromoCode");
 		return promoCodeInterceptor;
+	}
+	
+	
+	
+	// Added from Chapter_8
+	// This 'LocalValidatorFactoryBean' will initiate the Hibernate Validator during the booting of our application.
+	// The 'setValidationMessageSource()' method indicates which message source bean it should look to for error messages.
+	// We already configured message sources in our web application context, we just use that bean, which is why we assigned the value
+	// 'messageSource()' as the value for the 'setValidationMessageSource()' method.
+	@Bean(name = "validator")
+	public LocalValidatorFactoryBean validator() {
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());
+		return bean;
+	}
+	
+	
+	
+	// Added from Chapter_8
+	// Here we override the getValidator method to configure our validator bean as the default validator.
+	@Override
+	public Validator getValidator(){
+		return validator();
+	}
+	
+	
+	
+	// Added from Chapter_8
+	@Bean
+	public ProductValidator productValidator () {
+		Set<Validator> springValidators = new HashSet<>();
+		springValidators.add(new UnitsInStockValidator());
+		ProductValidator productValidator = new ProductValidator();
+		productValidator.setSpringValidators(springValidators);
+		return productValidator;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import com.packt.webstore.domain.Product;
 import com.packt.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.packt.webstore.exception.ProductNotFoundException;
 import com.packt.webstore.service.ProductService;
+import com.packt.webstore.validator.ProductValidator;
 
 
 // to put the product information in a model, we needed to create this controller class ProductController{}... step3
@@ -141,8 +143,14 @@ public class ProductController {
 	// Then finally our logical View name, instead of returning a View name, we are simply instructing Spring to issue a redirect 
 	// request to the request path /market/products, which is the request path for the list method of our ProductController.
 	// So, after submitting the form, we list the products using the 'list' method of 'ProductController{}'.
+	// We added the @Valid annotation in front of 'Product' in the method parameter from Chapter_8
 	@RequestMapping(value = "/products/add", method = RequestMethod.POST)
-	public String processAddNewProductForm(@ModelAttribute("newProduct") Product productToBeAdded, BindingResult result, HttpServletRequest request) {
+	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product productToBeAdded, BindingResult result, HttpServletRequest request) {
+		
+		// added this if statement from Chapter_8
+		if(result.hasErrors()) {
+			return "addProduct";
+		}
 		
 		String[] suppressedFields = result.getSuppressedFields();
 		
@@ -190,6 +198,10 @@ public class ProductController {
 								"condition",
 								"productImage",		// Added from Chapter_5
 								"language");		// Added from Chapter_6
+		
+		//binder.setValidator(unitsInStockValidator); // Added from Chapter_8
+		
+		binder.setValidator(productValidator);		// Added from Chapter_8, replaces the setValidator(unitsInStockValidator); above
 	}
 	
 	
@@ -212,6 +224,24 @@ public class ProductController {
 	public String invalidPromoCode() {
 		return "invalidPromoCode";
 	}
+	
+	
+	
+	/*
+	// Added from Chapter_8
+	// We need to associate that validator with the controller, so we simply added and autowired the reference to 'UnitsInStockValidator'.
+	// And we associated the unitsInStockValidator with WebDataBinder in the initialiseBinder method in this 'ProductController.java' class.
+	@Autowired
+	private UnitsInStockValidator unitsInStockValidator;
+	*/
+	
+	
+	
+	// Added from Chapter_8
+	// Replaced the existing reference of the 'UnitsInStockValidator' field above, with our newly created 'ProductValidator' class
+	@Autowired
+	private ProductValidator productValidator;
+	
 	
 	
 }
