@@ -26,4 +26,9 @@ public interface CartRepository {
 	
 	void removeItem(String cartId, String productId);
 	
+	
+	
+	// Added the line below from Chapter_10
+	void clearCart(String cartId);
+	
 }

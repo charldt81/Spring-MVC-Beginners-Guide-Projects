@@ -34,7 +34,9 @@
 		<div data-ng-controller="cartCtrl" data-ng-init="initCartId('${cartId}')">
 			<div>
 				<a class="btn btn-danger pull-left" data-ng-click="clearCart()"> <span class="glyphicon glyphicon-removesign"></span> Clear Cart </a>
-				<a href="#" class="btn btn-success pull-right"> <span class="glyphicon-shopping-cart glyphicon"></span> Check out </a>
+				<%-- added '<spring:url value="/checkout?cartId=${cartId}"/>' below from Chapter_10  --%>
+				<a href="<spring:url value="/checkout?cartId=${cartId}"/>" class="btn btn-success pull-right">
+					<span class="glyphicon-shopping-cart glyphicon"></span> Check out </a>
 			</div>
 			
 			<table class="table table-hover">

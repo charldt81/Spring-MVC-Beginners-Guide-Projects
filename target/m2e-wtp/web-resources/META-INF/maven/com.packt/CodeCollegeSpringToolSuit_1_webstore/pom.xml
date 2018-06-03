@@ -121,11 +121,18 @@
 			<version>4.1.1.RELEASE</version>
 		</dependency>
 
-		<!-- added the following dependancy from Chapter_8 -->
+		<!-- added the following dependency from Chapter_8 -->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.0.10.Final</version>
+		</dependency>
+		
+		<!-- added the following dependency from Chapter_10 -->
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
+			<version>2.5.0.RELEASE</version>
 		</dependency>
 	</dependencies>
 	
