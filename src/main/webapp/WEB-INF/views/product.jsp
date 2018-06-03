@@ -9,6 +9,8 @@
 
 
 <head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>	<%-- added this line from Chapter_9 --%>
+		<script src="/CodeCollegeSpringToolSuit_1_webstore/resources/js/controllers.js"></script>		<%-- added this line from Chapter_9 --%>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 		<title>Products</title>
@@ -24,7 +26,7 @@
 			</div>
 		</section>
 	
-		<section class="container">
+		<section class="container" data-ng-app="cartApp">	<%-- added this 'data-ng-app="cartApp"' from Chapter_9 --%>
 			<div class="row">
 				
 				<%-- the following 3 lines added from Chapter_5 for images --%>
@@ -48,16 +50,18 @@
 						<strong>Available units in stock </strong> : ${product.unitsInStock}
 					</p>
 					<h4>${product.unitPrice}USD</h4>
-					<p>
+					
+					<p data-ng-controller="cartCtrl">	<%-- Added this 'data-ng-controller="cartCtrl"' from Chapter_9 --%>
 						<a href="<spring:url value="/market/products" />" class="btnbtn-default">
-							<span class="glyphicon-hand-left glyphicon"></span>
-							back
-						</a>
-						<a href="#" class="btn btn-warning btn-large"> 
-							<span class="glyphicon-shopping-cart glyphicon"> </span> 
-							Order Now
-						</a>
+							<span class="glyphicon-hand-left glyphicon"></span> back </a>
+							
+						<a href="#" class="btn btn-warning btn-large" data-ng-click="addToCart('${product.productId}')">
+							<span class="glyphicon-shopping-cart glyphicon"> </span> Order Now </a>
+							
+						<a href="<spring:url value="/cart" />" class="btn btn-default"> 
+							<span class="glyphicon-hand-right glyphicon"></span> View Cart </a>
 					</p>
+					
 				</div>
 			</div>
 		</section>
