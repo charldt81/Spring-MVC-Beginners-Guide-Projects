@@ -25,7 +25,7 @@
 		</section>
 		
 		<section class="container">
-			<form:form modelAttribute="order.customer" class="formhorizontal">
+			<form:form modelAttribute="order.customer" class="form-horizontal">
 				<fieldset>
 					<legend>Customer Details</legend>
 					
@@ -88,8 +88,8 @@
 					<input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
 					<div class="form-group">
 						<div class="col-lg-offset-2 col-lg-10">
-							<input type="submit" id="btnAdd" class="btnbtn-primary" value="Add" name="_eventId_customerInfoCollected" />
-							<button id="btnCancel" class="btn btndefault" name="_eventId_cancel">Cancel</button>
+							<input type="submit" id="btnAdd" class="btn btn-primary" value="Add" name="_eventId_customerInfoCollected" />
+							<button id="btnCancel" class="btn btn-default" name="_eventId_cancel">Cancel</button>
 						</div>
 					</div>
 					

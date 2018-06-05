@@ -22,15 +22,18 @@
 
 <body>
 
-	<%-- added these next 5 lines from Chapter_6 --%>
+<%--
+	<%-- added these next 5 lines from Chapter_6 
 	<section>
 			<div class="pull-right" style="padding-right:50px">
 				<a href="?language=en" >English</a> | 
 				<a href="?language=nl" >Dutch</a> | 
-				<a href="<c:url value="/logout" />">Logout</a>	<%-- this line added from Chapter_7 --%>
+				<a href="<c:url value="/logout" />">Logout</a>	<%-- this line added from Chapter_7 
 			</div>
 	</section>
+--%>
 
+<%--
 	<section>
 			<div class="jumbotron">
 				<div class="container">
@@ -39,7 +42,8 @@
 				</div>
 			</div>
 	</section>
-	
+--%>
+
 	<section class="container">															<%-- added 'enctype="multipart/form-data"' from Chapter_5 --%>
 			<form:form method="POST" modelAttribute="newProduct" class="form-horizontal" enctype="multipart/form-data">
 			<form:errors path="*" cssClass="alert alert-danger" element="div"/>		<%-- added this global <form:errors/> tag from Chapter_8 --%>
@@ -133,7 +137,7 @@
 					
 					<div class="form-group">
 						<div class="col-lg-offset-2 col-lg-10">
-							<input type="submit" id="btnAdd" class="btnbtn-primary" value="Add" />
+							<input type="submit" id="btnAdd" class="btn btn-primary" value="Add" />
 						</div>
 					</div>
 					

@@ -20,6 +20,7 @@
 		<title>Cart</title>
 </head>
 
+<%--
 <body>
 	<section>
 		<div class="jumbotron">
@@ -29,6 +30,7 @@
 			</div>
 		</div>
 	</section>
+--%>
 	
 	<section class="container" data-ng-app="cartApp">
 		<div data-ng-controller="cartCtrl" data-ng-init="initCartId('${cartId}')">

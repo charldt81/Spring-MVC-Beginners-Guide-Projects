@@ -18,6 +18,8 @@
 
 
 <body>
+
+<%--
 		<section>
 			<div class="jumbotron">
 				<div class="container">
@@ -25,6 +27,7 @@
 				</div>
 			</div>
 		</section>
+--%>
 	
 		<section class="container" data-ng-app="cartApp">	<%-- added this 'data-ng-app="cartApp"' from Chapter_9 --%>
 			<div class="row">
@@ -52,7 +55,7 @@
 					<h4>${product.unitPrice}USD</h4>
 					
 					<p data-ng-controller="cartCtrl">	<%-- Added this 'data-ng-controller="cartCtrl"' from Chapter_9 --%>
-						<a href="<spring:url value="/market/products" />" class="btnbtn-default">
+						<a href="<spring:url value="/market/products" />" class="btn btn-default">
 							<span class="glyphicon-hand-left glyphicon"></span> back </a>
 							
 						<a href="#" class="btn btn-warning btn-large" data-ng-click="addToCart('${product.productId}')">

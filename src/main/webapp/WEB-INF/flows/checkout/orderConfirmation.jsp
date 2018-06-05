@@ -100,14 +100,14 @@
 									<td></td>
 									<td></td>
 									<td class="text-right"><h4><strong>Grand Total: </strong></h4></td>
-									<td class="text-center textdanger"><h4><strong>$${order.cart.grandTotal}</strong></h4></td>
+									<td class="text-center text-danger"><h4><strong>$${order.cart.grandTotal}</strong></h4></td>
 								</tr>
 							</tbody>
 						</table>
 						
 						<button id="back" class="btn btn-default" name="_eventId_backToCollectShippingDetail">back</button>
-						<button type="submit" class="btn btnsuccess" name="_eventId_orderConfirmed">Confirm<span class="glyphicon glyphicon-chevron-right"></span></button>
-						<button id="btnCancel" class="btn btndefault" name="_eventId_cancel">Cancel</button>
+						<button type="submit" class="btn btn-success" name="_eventId_orderConfirmed">Confirm<span class="glyphicon glyphicon-chevron-right"></span></button>
+						<button id="btnCancel" class="btn btn-default" name="_eventId_cancel">Cancel</button>
 					</div>
 				</div>
 			</form:form>

@@ -21,11 +21,13 @@
 	
 	<body>
 	
+<%--
 		<div class="jumbotron">
-			<h1> ${greeting} </h1>	<%-- the '${ }' sign indicates that it pulls the content in from the 'HomeController' page from 'addAtribute("greeting, ")' --%>
-			<p> ${tagline} </p>		<%-- the '${ }' sign indicates that it pulls the content in from the 'HomeController' page from 'addAtribute("tagline, ")' --%>
+			<h1> ${greeting} </h1>	<%-- the '${ }' sign indicates that it pulls the content in from the 'HomeController' page from 'addAtribute("greeting, ")' --%
+			<p> ${tagline} </p>		<%-- the '${ }' sign indicates that it pulls the content in from the 'HomeController' page from 'addAtribute("tagline, ")' --%
 		</div>
-		
+--%>
+
 	</body>
 
 

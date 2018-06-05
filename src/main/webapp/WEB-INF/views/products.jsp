@@ -13,15 +13,18 @@
 </head>
 
 <body>
+
+<%--
 	<section>
-		<div class="jumbotron">			<%-- the div tags are used for Bootstrap, which is an open source CSS framework --%>
+		<div class="jumbotron">			<%-- the div tags are used for Bootstrap, which is an open source CSS framework
 			<div class="container">
 				<h1>Products</h1>
 				<p>All the available products in our store</p>
 			</div>
 		</div>
 	</section>
-	
+--%>
+
 	<section class="container">
 		<div class="row">
 			<c:forEach items="${products}" var="product">	<%-- loop through the list and show each product's information inside a styled <div> tag --%>
@@ -38,7 +41,7 @@
 							<p>${product.unitPrice} USD</p>								<%-- from the Product{} class --%>
 							<p>Available ${product.unitsInStock} units in stock</p>		<%-- from the Product{} class --%>
 							<p>
-								<a href=" <spring:url value="/market/product?id=${product.productId}" /> " class="btn btn-primary">
+								<a href="<spring:url value="/market/product?id=${product.productId}" />" class="btn btn-primary">
 									<span class="glyphicon-info-sign glyphicon"/></span> 
 									Details
 								</a>
