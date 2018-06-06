@@ -57,8 +57,8 @@
 					<td>{{item.quantity}}</td>
 					<td>{{item.totalPrice}}</td>
 					<%-- And the data-ng-click directive from the remove <a> tag would call the removeFromCart Controller method. --%>
-					<td><a href="#" class="label labeldanger" data-ng-click="removeFromCart(item.product.productId)">
-					<span class="glyphicon glyphiconremove" /></span> Remove </a></td>
+					<td><a href="#" class="label label-danger" data-ng-click="removeFromCart(item.product.productId)">
+					<span class="glyphicon glyphicon-remove" /></span> Remove </a></td>
 				</tr>
 				<tr>
 					<th></th>

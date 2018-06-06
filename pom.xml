@@ -7,7 +7,12 @@
 	<artifactId>CodeCollegeSpringToolSuit_1_webstore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
 
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 
 
 	<build>
@@ -22,14 +27,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	
-
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
-	
 	
 	
 	<dependencies>
@@ -123,9 +120,9 @@
 
 		<!-- added the following dependency from Chapter_8 -->
 		<dependency>
-			<groupId>org.hibernate.validator</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>6.0.10.Final</version>
+			<version>5.2.4.Final</version>
 		</dependency>
 		
 		<!-- added the following dependency from Chapter_10 -->
@@ -141,6 +138,47 @@
 			<artifactId>tiles-extras</artifactId>
 			<version>3.0.8</version>
 		</dependency>
+		
+		<!-- added the following three dependencies from Chapter_12 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.3.0.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>test</scope>
+		</dependency>
+		
+		
+		<!-- additional dependency added -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		    <version>1.7.25</version>
+		</dependency>
+
+
+
+		<!-- added the following dependency from Chapter_12 -->
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path-assert</artifactId>
+			<version>2.4.0</version>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
 	
 	
